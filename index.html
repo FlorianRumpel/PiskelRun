@@ -54,6 +54,7 @@
       var fullscreenButton = document.querySelector("#unity-fullscreen-button");
       var warningBanner = document.querySelector("#unity-warning");
 
+      const header = document.querySelector("header");
       const startButton = document.querySelector("#start-button");
       const endButton = document.querySelector("#end-button");
       // Shows a temporary message banner/ribbon for a few seconds, or
@@ -62,6 +63,7 @@
       // Modify or remove this function to customize the visually presented
       // way that non-critical warnings and error messages are presented to the
       // user.
+
       function unityShowBanner(msg, type) {
         function updateBannerVisibility() {
           warningBanner.style.display = warningBanner.children.length
@@ -73,12 +75,13 @@
         warningBanner.appendChild(div);
         container.removeChild(canvas);
         container.removeChild(loadingBar);
-
+        container.removeChild(header);
         if (type == "error") div.style = "background: red; padding: 10px;";
         else {
           if (type == "warning")
             div.style = "background: yellow; padding: 10px;";
         }
+        updateBannerVisibility();
       }
 
       var buildUrl = "Build";
@@ -116,7 +119,9 @@
         // performance, uncomment the following line:
         // config.devicePixelRatio = 1;
 
-        unityShowBanner("WebGL builds are not supported on mobile devices.");
+        unityShowBanner(
+          "Piskel Run is not supported on mobile devices. Please use a Laptop or Pc.",
+        );
       } else {
         // Desktop style: Render the game canvas in a window that can be maximized to fullscreen:
 
@@ -129,11 +134,11 @@
       var script = document.createElement("script");
       script.src = loaderUrl;
 
-      endButton.addEventListener("click", () => {
-        window.location.reload();
-      });
+      endButton.addEventListener("click", () => window.location.reload());
 
-      startButton.addEventListener("click", () => {
+      startButton.addEventListener("click", () => PlayGame());
+
+      function PlayGame() {
         startButton.disabled = true;
         createUnityInstance(canvas, config, (progress) => {
           progressBarFull.style.width = 100 * progress + "%";
@@ -147,8 +152,7 @@
           .catch((message) => {
             alert(message);
           });
-      });
-
+      }
       document.body.appendChild(script);
     </script>
   </body>
