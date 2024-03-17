@@ -72,8 +72,7 @@
         div.innerHTML = msg;
         warningBanner.appendChild(div);
         document.removeChild(canvas);
-        document.removeChild(loadingBar);
-
+        loadingBar.style.opacity = 0;
         if (type == "error") div.style = "background: red; padding: 10px;";
         else {
           if (type == "warning")
